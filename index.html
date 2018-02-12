@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sh*t My 2 Year Old Says</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <div class="jumbotron text-center">
+    <h1>Sh*t My Toddler Says
+    <small>The Game</small></h1>
+  </div>
+  <div>
+		<row><col-md-10><p>So I've got a two-year-old. That's maybe too many hyphens. Anyway she's got a constantly growing vocaublary. Just prior to working on this today, I heard her say Mommy, Daddy, poopy, kitty, and tree. Poopy and kitty are big right now. Tree is new though.</p></col><col-md-2><img src="assets/images/IMG_0091.jpg" width="200px"></img></row></div>
+
+  <div class="well">
+    <h1>Guess The Word:<p id=blanks></p></h1></div>
+  <br>
+  <div class="well">
+    <h2>Guesses Left: <span id=chances></span><h2></div>
+  <div class="well"><h2>Letters You've Guessed: <p id=guessed></p></h2></div>
+
+  <div class="well">
+    <h3>Wins:<span id=winList>0</span></h3></div>
+  <br>
+  <button type="button" class="btn  btn-primary" id="start">Next Word</button>
+
+
+
+  <script type="text/javascript">
+    var words = ['kitty', 'tree', 'poopy', 'mommy', 'daddy'];
+    var wins = "0";
+    var loss = "0";
+    var wrongLetter = [];
+    var guessesLeft = 12;
+    var underScores = [];
+    var userGuesses = [];
+    var chosen = [];
+    var choice;
+    var rightGuess = 0;
+
+    function startGame() {
+
+      choice = words[Math.floor(Math.random() * words.length)];
+      console.log(choice);
+
+      for (var i = 0; i < choice.length; i++) {
+        underScores.push(" _ ")
+
+
+      }
+      document.getElementById("blanks").innerHTML = underScores.join(" ");
+
+      wrongLetter = []
+      guessesLeft = 12
+      userGuesses = []
+      rightGuess = 0
+      chosen = []
+
+
+
+      document.getElementById("chances").innerHTML = guessesLeft;
+
+    };
+
+    function winlose() {
+
+      if (rightGuess === choice.length) {
+        wins++
+        document.getElementById("winList").innerHTML = wins;
+        alert("Winner!")
+
+      } else if (guessesLeft === 0) {
+        alert("Loss")
+
+
+      }
+
+    };
+
+    document.onkeyup = function(event) {
+
+      userGuesses = event.key;
+      if (underScores.includes(userGuesses)) {
+        return
+      } else if (wrongLetter.includes(userGuesses)) {
+        return
+      } else {
+        chosen.push(userGuesses)
+        document.getElementById("guessed").innerHTML = chosen
+
+
+        if (choice.indexOf(userGuesses) > -1) {
+
+          for (var i = 0; i < choice.length; i++) {
+            if (choice[i] === userGuesses) {
+              underScores[i] = userGuesses;
+              console.log(underScores);
+              rightGuess++
+              document.getElementById("blanks").innerHTML = underScores.join(" ");
+
+              winlose();
+            }
+
+          }
+
+        } else {
+          wrongLetter.push(userGuesses);
+          console.log(wrongLetter);
+          guessesLeft--;
+          console.log(guessesLeft);
+          document.getElementById("chances").innerHTML = guessesLeft;
+          winlose()
+        }
+
+
+      }
+    };
+
+
+
+
+
+
+
+
+
+    startGame();
+
+    document.getElementById("start").onclick = function() {
+      startGame();
+    };
+  </script>
+
+</body>
+
+</html>
